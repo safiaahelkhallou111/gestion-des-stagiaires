@@ -1,0 +1,6 @@
+database/ocp_stagiaires.sqlite
+public/uploads/
+/.idea/
+/vendor/
+.env
+*.log
