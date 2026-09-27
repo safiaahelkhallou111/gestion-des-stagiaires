@@ -1,163 +1,175 @@
-# Plateforme de Gestion des Stagiaires OCP
+# Gestion des Stagiaires OCP
 
-> **Entité Digitalisation & Systèmes d'Information — OCP Group**  
-> Plateforme centralisée pour la gestion complète des stagiaires (candidature, suivi, pointage, évaluation, messagerie)
+Plateforme web de gestion des stagiaires pour l'entité Digitalisation & Systèmes d'Information de l'OCP Group.
 
----
+Elle permet de centraliser la gestion des candidatures, des stages, des pointages, des tâches, des évaluations, des documents et de la communication entre stagiaires et encadrants.
 
-## Stack Technique
+## Aperçu
 
-| Composant | Technologie |
-|-----------|-------------|
-| Backend   | PHP 8.2+ (MVC natif) |
-| Base de données | MySQL 8 (ou SQLite automatique en fallback) |
-| Frontend  | Bootstrap 5.3 + CSS Design System OCP |
-| Sécurité  | Sessions PHP, BCrypt (`password_hash`), PDO préparé |
+- Gestion des comptes stagiaires et encadrants
+- Suivi des stages et affectations
+- Pointage quotidien des stagiaires
+- Suivi des tâches et progression
+- Évaluations avec critères multiples
+- Gestion des documents téléversés
+- Messagerie interne et notifications
+- Interface sécurisée avec contrôle d'accès selon le rôle
 
----
+## Stack technique
 
-## Démarrage Rapide (3 étapes)
+- Backend : PHP 8+
+- Framework MVC natif
+- Base de données : MySQL / SQLite en fallback automatique
+- Frontend : Bootstrap 5, CSS personnalisé
+- Sécurité : sessions PHP, hashage BCrypt, PDO préparé
 
-### Prérequis
-- [XAMPP](https://www.apachefriends.org/) (PHP 8+ + MySQL) **ou** juste PHP 8+ en ligne de commande
-- PHP 8.x disponible dans votre PATH (ou utilisable via `C:\xampp\php\php.exe`)
+## Fonctionnalités principales
 
-### 1. Cloner / Placer le projet
+### Pour les stagiaires
 
+- Consultation du tableau de bord
+- Suivi de son stage et de son sujet
+- Déclaration de pointage
+- Gestion des tâches assignées
+- Téléversement de documents
+- Consultation des notifications et messages
+- Soumission du rapport final
+
+### Pour les encadrants
+
+- Gestion des stagiaires affectés
+- Consultation des fiches détaillées
+- Suivi du pointage et des tâches
+- Évaluation des stagiaires
+- Gestion des sujets de stage
+- Messagerie interne avec les stagiaires
+
+## Prérequis
+
+- PHP 8.x
+- MySQL 8 ou SQLite
+- XAMPP ou un serveur local PHP
+- Navigateur moderne
+
+## Installation
+
+### 1. Cloner le projet
+
+```bash
+git clone https://github.com/safiaahelkhallou111/gestion-des-stagiaires.git
+cd gestion-des-stagiaires
 ```
-c:\Users\HP\Desktop\gestion des stagiaires\
-```
 
-### 2. Lancer le serveur de développement PHP
+### 2. Démarrer le serveur
+
+#### Option 1 : PHP intégré
 
 ```powershell
-# Depuis le répertoire du projet
 & "C:\xampp\php\php.exe" -S localhost:8000 -t public
 ```
 
-**Ou via XAMPP :** Copiez le dossier dans `C:\xampp\htdocs\gestion-stagiaires\` et accédez via `http://localhost/gestion-stagiaires/`
+#### Option 2 : XAMPP
+
+Placez le projet dans le dossier `C:\xampp\htdocs\` puis ouvrez :
+
+```text
+http://localhost/gestion-des-stagiaires/
+```
 
 ### 3. Accéder à l'application
 
-Ouvrez votre navigateur sur :  
-**http://localhost:8000**
+Ouvrez votre navigateur sur :
 
-> La base de données est automatiquement créée et initialisée avec des données de démonstration dès le premier accès.
+```text
+http://localhost:8000
+```
 
----
+> La base de données est créée automatiquement si nécessaire et les données de démonstration sont initialisées au premier accès.
 
-## Comptes de Démonstration
+## Comptes de démonstration
 
 | Rôle | Email | Mot de passe |
-|------|-------|-------------|
+|------|-------|--------------|
 | Encadrant OCP | `encadrant@ocp.ma` | `Password123!` |
 | Stagiaire (PFE) | `stagiaire@ocp.ma` | `Password123!` |
 | Stagiaire (PFA) | `youssef@ocp.ma` | `Password123!` |
 
----
+## Structure du projet
 
-## Arborescence du Projet
-
-```
-gestion des stagiaires/
+```text
+gestion-des-stagiaires/
 ├── config/
-│   ├── config.php          # Constantes, helpers (url, redirect, sanitize...)
-│   └── database.php        # Connexion PDO (MySQL → SQLite auto-fallback)
+│   ├── config.php
+│   └── database.php
 ├── controllers/
-│   ├── AuthController.php          # Auth (login, register, forgot/reset password)
-│   ├── StagiaireController.php     # Module Stagiaire complet
-│   ├── EncadrantController.php     # Module Encadrant complet
-│   ├── MessageController.php       # API AJAX messagerie
-│   └── NotificationController.php  # API AJAX notifications
 ├── models/
-│   ├── User.php            # Authentification et gestion profil
-│   ├── Stagiaire.php       # Profil et stage actif
-│   ├── Encadrant.php       # Profil, dashboard stats, liste stagiaires
-│   ├── Stage.php           # Création/clôture stage (RG2, RG6)
-│   ├── SujetStage.php      # CRUD sujets par encadrant (RG4)
-│   ├── Pointage.php        # Présence quotidienne unique (RG7)
-│   ├── Tache.php           # Suivi avancement 0-100%
-│   ├── Evaluation.php      # Notation (RG8), 3 critères
-│   ├── Document.php        # Upload & gestion fichiers (RG10)
-│   ├── Message.php         # Messagerie privée (RG9)
-│   └── Notification.php    # Alertes & notifications
 ├── views/
-│   ├── layouts/            # header, sidebar, navbar, footer
-│   ├── auth/               # login, register, forgot/reset password
-│   ├── stagiaire/          # Dashboard, Sujet, Tâches, Pointage, Documents, Messages, Notifications
-│   ├── encadrant/          # Dashboard KPIs, Stagiaires, Fiche détaillée, Sujets, Évaluations, Pointages, Messages
-│   └── errors/             # 403, 404
 ├── public/
-│   ├── index.php           # Front Controller (routeur)
-│   ├── css/style.css       # Design System OCP (Vert #008751, dark mode)
+│   ├── index.php
+│   ├── css/
 │   ├── js/
-│   │   ├── app.js          # Interactions UI, dismiss alerts, tooltips
-│   │   └── chat.js         # Messagerie temps réel (polling AJAX 3s)
 │   └── uploads/
-│       ├── documents/      # Fichiers déposés par les stagiaires
-│       └── avatars/        # Photos de profil
-└── database/
-    ├── schema.sql                  # Schéma MySQL complet avec FK et seed data
-    ├── init_db.php                 # Initialisation auto (MySQL + SQLite)
-    └── ocp_stagiaires.sqlite       # BDD SQLite générée automatiquement (si MySQL absent)
+├── database/
+│   ├── schema.sql
+│   ├── init_db.php
+│   └── ocp_stagiaires.sqlite
+├── scripts/
+├── README.md
+├── .gitignore
+└── LICENSE (si ajouté)
 ```
 
----
+## Configuration de la base de données
 
-## Règles de Gestion Implémentées
-
-| # | Règle | Implémentation |
-|---|-------|----------------|
-| RG1 | Un utilisateur = un seul rôle | Colonne `role` ENUM, contrôle de session |
-| RG2 | Un stagiaire = un seul stage actif | `Stage::create()` vérifie avant insertion |
-| RG3 | Stage obligatoirement lié à stagiaire + encadrant + sujet | FK + NOT NULL sur `stages` |
-| RG4 | Un sujet appartient à son encadrant | FK `encadrant_id` dans `sujets_stage` |
-| RG5 | Encadrant ne consulte que ses stagiaires | Vérification `encadrant_id` dans chaque requête |
-| RG6 | Statut stage : en_cours → terminé (irréversible) | `Stage::updateStatut()` refuse la régression |
-| RG7 | Pointage unique par date + stagiaire | UNIQUE `(stagiaire_id, date_pointage)` |
-| RG8 | Évaluation unique par stage, par son encadrant | UNIQUE `stage_id` dans `evaluations` |
-| RG9 | Messagerie uniquement stagiaire ↔ son encadrant | `Message::envoyer()` vérifie les participants |
-| RG10 | Document rattaché à un stagiaire + horodaté | FK + `TIMESTAMP DEFAULT CURRENT_TIMESTAMP` |
-
----
-
-## Configuration MySQL (si MySQL disponible)
-
-Éditez `config/database.php` :
+Si vous utilisez MySQL, configurez les informations dans `config/database.php` :
 
 ```php
 private static $host = '127.0.0.1';
 private static $db_name = 'ocp_stagiaires';
 private static $username = 'root';
-private static $password = '';  // ← votre mot de passe root MySQL
+private static $password = '';
 ```
 
-Puis importez le schéma :
+Puis importer le schéma :
 
 ```bash
-# Via mysql CLI
 mysql -u root -p < database/schema.sql
-
-# Ou importez database/schema.sql via phpMyAdmin
 ```
-
----
 
 ## Sécurité
 
-- ✅ **PDO préparé** : Toutes les requêtes SQL utilisent des requêtes préparées (zero injection SQL)
-- ✅ **BCrypt** : Mots de passe hashés avec `password_hash(PASSWORD_BCRYPT)` 
-- ✅ **Sessions PHP** : Contrôle d'accès par rôle à chaque requête
-- ✅ **XSS** : Toutes les sorties HTML passent par `sanitize()` (`htmlspecialchars`)
-- ✅ **Upload sécurisé** : Vérification d'extension, renommage aléatoire
-- ✅ **Contrôle cross-tenant** : Un encadrant ne peut jamais accéder aux données d'un stagiaire qui ne lui est pas affecté
+- Requêtes SQL préparées via PDO
+- Hachage des mots de passe avec `password_hash`
+- Contrôle d'accès par rôle
+- Nettoyage des entrées/sorties avec `htmlspecialchars`
+- Vérification des types et extensions de fichiers uploadés
+
+## Développements futurs
+
+- Profil administrateur / RH
+- Notifications email via SMTP
+- Export PDF / Excel
+- Internationalisation
+- Refactorisation vers un framework moderne
+
+## Licence
+
+Ce projet est destiné à un usage académique et de démonstration.
+
+## Auteur
+
+Projet développé dans le cadre de la gestion des stagiaires OCP.
+
+## Contribution
+
+Les contributions sont les bienvenues. Pour proposer une amélioration :
+
+1. Fork le dépôt
+2. Créez une branche
+3. Effectuez vos changements
+4. Ouvrez une pull request
 
 ---
 
-## Évolutions Futures Planifiées
-
-- 🔄 Profil Administrateur / RH (gestion globale)
-- 📧 Envoi d'emails via SMTP (notifications réelles)
-- 📊 Export Excel/PDF des listes et évaluations
-- 🌐 Internationalisation (Français/Arabe/Anglais)
-- 🚀 Migration vers Laravel ou Symfony
+Vous pouvez également visiter le dépôt GitHub ici :
+https://github.com/safiaahelkhallou111/gestion-des-stagiaires
